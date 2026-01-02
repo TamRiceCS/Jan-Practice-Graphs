@@ -1,0 +1,57 @@
+Implementation Details
+
+Main
+-Menu Options
+
+Node
+- Weight (int)
+- Neighbor (Node*)
+
+Graph
+- hasNegative (boolean)
+- aList (boolean)
+- aMatrix (boolean)
+- return neighbors (vector int) // will need to be overwritten
+- output graph // [] or -> 
+
+
+ALGraph > inherits Graph
+- create graph w/ adjacency list of Nodes
+- needs a constuctor that recieves a file
+
+AMGraph > inherits Graph
+- creates a graph w/ a matrix of ints
+- needs a constructor that recieves a file
+
+// The aim is to create more specific graphs but to only call high level graph functions.
+
+
+Traversal
+- BFS
+- DFS
+
+Cycles
+- Directed
+- Undirected
+
+Shortest Path
+- Dijkstra's 
+- Bellman Ford
+- Floyd Warshall
+
+MST
+- Prim's
+- Kruskal's 
+- Boruvka's 
+
+Topological Sorting
+- Kahn's 
+
+Connectivity
+- BFS
+- DFS
+
+Max Flow
+- Ford Fulkerson
+- Karger's 
+- Dinic's
