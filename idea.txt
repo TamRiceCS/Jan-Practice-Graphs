@@ -11,7 +11,7 @@ Graph
 - hasNegative (boolean)
 - aList (boolean)
 - aMatrix (boolean)
-- return neighbors (vector int) // will need to be overwritten
+- Traversal, Cycles, Shortest Path, etc. will all be overwritten by their respective implementations
 - output graph // [] or -> 
 
 

@@ -12,24 +12,30 @@ private:
     bool hasNegative = false;
 
 public:
-    void setAsList();
-    void setAsMatrix();
-    void setAsDirected();
-    void setHasNegative();
+    void setAsList()
+    {
+        aList = true;
+    }
+    virtual void outputGraph()
+    {
+    }
+    // virtual void setAsMatrix();
+    // virtual void setAsDirected();
+    // virtual void setHasNegative();
 
-    void outputGraph();
-    void BFStraversal();
-    void DFStraversal();
-    void detectCycle(); // Contains code for both directed and undirected. Make call simple.
-    void dijkstraShortest();
-    void bellmanFordShortest();
-    void floydWarshallShortest();
-    void primMST();
-    void kruskalMST();
-    void boruvkaMST();
-    void kahnTopological();
-    void connectivity();
-    void fordFulkersonFlow();
-    void kargerFlow();
-    void dinicFlow();
+    // virtual void outputGraph();
+    // virtual void BFStraversal();
+    // virtual void DFStraversal();
+    // virtual void detectCycle(); // Contains code for both directed and undirected. Make call simple.
+    // virtual void dijkstraShortest();
+    // virtual void bellmanFordShortest();
+    // virtual void floydWarshallShortest();
+    // virtual void primMST();
+    // virtual void kruskalMST();
+    // virtual void boruvkaMST();
+    // virtual void kahnTopological();
+    // virtual void connectivity();
+    // virtual void fordFulkersonFlow();
+    // virtual void kargerFlow();
+    // virtual void dinicFlow();
 };

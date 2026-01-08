@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include "graph.cpp"
+#include "adjacency_matrix.cpp"
 
 bool buildMenu(char &userChar)
 {
@@ -13,11 +15,23 @@ bool buildMenu(char &userChar)
     std::cin.clear();
     std::cin >> userChar;
 
+    std::string fileName = "";
+
     switch (userChar)
     {
     case '1':
     {
         std::cout << "\nYou selected option 1..." << std::endl;
+        while (true)
+        {
+            std::cin.clear();
+            std::cout << "Please enter the name of the file containing a graph... " << std::endl;
+            std::cout << "\nYour input: ";
+            std::cin >> fileName;
+
+            Graph *example = new AdjacencyMatrix(fileName);
+            example->outputGraph();
+        }
         break;
     }
     case '2':
@@ -61,6 +75,10 @@ int main()
     // include a generic graph variable
 
     std::cout << "\nWelcome to my graph practice code." << std::endl;
+
+    // Graph *example = new AdjacencyMatrix("basic_matrix.txt");
+    // example->setAsList();
+    // example->outputGraph();
 
     while (progress)
     {
