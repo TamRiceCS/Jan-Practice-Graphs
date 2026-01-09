@@ -10,11 +10,26 @@ private:
     bool aMatrix = false;
     bool directed = false;
     bool hasNegative = false;
+    bool valid = false;
 
 public:
     void setAsList()
     {
         aList = true;
+        aMatrix = false;
+    }
+    void setaMatrix()
+    {
+        aMatrix = true;
+        aList = false;
+    }
+    void setValid(bool fact)
+    {
+        valid = fact;
+    }
+    bool getValidity()
+    {
+        return valid;
     }
     virtual void outputGraph()
     {

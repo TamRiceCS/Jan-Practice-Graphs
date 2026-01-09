@@ -8,6 +8,33 @@ class AdjacencyMatrix : public Graph
 private:
     std::vector<std::vector<int>> matrix;
 
+    void checkValidity()
+    {
+        if (matrix.size() == 0)
+        {
+            matrix.clear();
+            setValid(false);
+            std::cout << "\nThe graph is invalid, empty matrixes are not accepted...";
+            return;
+        }
+
+        int nodesNum = matrix[0].size();
+
+        for (int i = 0; i < matrix.size(); i++)
+        {
+            if (matrix[i].size() == 0 || matrix[i].size() != nodesNum)
+            {
+                std::cout << "\nThe graph is invalid, wrong amount of nodes on line " << i + 1 << "...";
+                matrix.clear();
+                setValid(false);
+                return;
+            }
+        }
+
+        std::cout << "\nThe graph is valid...";
+        setValid(true);
+    }
+
 public:
     AdjacencyMatrix(std::string fileName)
     {
@@ -54,10 +81,17 @@ public:
             matrix.push_back(adjacencies);
             adjacencies.clear();
         }
+
+        checkValidity();
     }
 
     void outputGraph()
     {
+        if (matrix.size() == 0)
+        {
+            return;
+        }
+
         std::cout << "\n";
         for (int i = 0; i < matrix.size(); i++)
         {

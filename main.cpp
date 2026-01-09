@@ -3,7 +3,7 @@
 #include "graph.cpp"
 #include "adjacency_matrix.cpp"
 
-bool buildMenu(char &userChar)
+Graph *buildMenu(char &userChar, bool &progress)
 {
     // will need to later include graph variable as a parameter
     std::cout << "\n\nPlease generate a graph to work with, empty graphs (no nodes) are invalid." << std::endl;
@@ -22,15 +22,18 @@ bool buildMenu(char &userChar)
     case '1':
     {
         std::cout << "\nYou selected option 1..." << std::endl;
-        while (true)
-        {
-            std::cin.clear();
-            std::cout << "Please enter the name of the file containing a graph... " << std::endl;
-            std::cout << "\nYour input: ";
-            std::cin >> fileName;
+        std::cin.clear();
+        std::cout << "   Please enter the name of the file containing a graph... " << std::endl;
+        std::cout << "\nYour input: ";
+        std::cin >> fileName;
 
-            Graph *example = new AdjacencyMatrix(fileName);
-            example->outputGraph();
+        Graph *example = new AdjacencyMatrix(fileName);
+        example->outputGraph();
+
+        if (example->getValidity())
+        {
+            progress = true;
+            return example;
         }
         break;
     }
@@ -41,15 +44,18 @@ bool buildMenu(char &userChar)
     }
     case 'x':
     {
-        return false;
+        progress = false;
+        return NULL;
     }
     }
-    return true;
+    progress = true;
+    return NULL;
 }
 
-bool optionMenu(char &userChar)
+char optionMenu(char &userChar)
 {
-    std::cout << "Pick an algorithm to run on your graph..." << std::endl;
+    std::cout << "\nPick an algorithm to run on your graph..." << std::endl;
+    std::cout << "   Press \'b\' to enter another graph..." << std::endl;
     std::cout << "   Press \'x\' to exit the program..." << std::endl;
 
     std::cout << "\nYour input: ";
@@ -60,7 +66,11 @@ bool optionMenu(char &userChar)
     {
     case 'x':
     {
-        return false;
+        return 'x';
+    }
+    default:
+    {
+        return userChar;
     }
     }
 
@@ -75,14 +85,27 @@ int main()
     // include a generic graph variable
 
     std::cout << "\nWelcome to my graph practice code." << std::endl;
-
-    // Graph *example = new AdjacencyMatrix("basic_matrix.txt");
-    // example->setAsList();
-    // example->outputGraph();
+    Graph *example = NULL;
 
     while (progress)
     {
-        progress = buildMenu(userChar);
+        if (example == NULL)
+        {
+            example = buildMenu(userChar, progress);
+        }
+        else
+        {
+            char event = optionMenu(userChar);
+            if (event == 'x')
+            {
+                progress = false;
+            }
+            else if (event == 'b')
+            {
+                delete example;
+                example = NULL;
+            }
+        }
     }
 
     std::cout << "Thank you, bye!\n"
