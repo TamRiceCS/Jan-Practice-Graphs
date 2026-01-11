@@ -1,8 +1,3 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include <fstream>
-
 class AdjacencyMatrix : public Graph
 {
 private:
@@ -60,6 +55,12 @@ public:
         {
             std::vector<int> adjacencies;
             int number = 0;
+            if (matrix.size() == 10)
+            {
+                std::cout << "Your graph has too many nodes..." << std::endl;
+                matrix.clear();
+                return;
+            }
             for (int i = 0; i < fileLine.size(); i++)
             {
                 if (fileLine[i] == '-')
@@ -76,6 +77,13 @@ public:
                     adjacencies.push_back(number);
                     number = 0;
                     sign = 1;
+                }
+
+                if (number > 1000 || number < -1000)
+                {
+                    std::cout << "Your graph contains a node not within the valid range..." << std::endl;
+                    matrix.clear();
+                    return;
                 }
             }
             matrix.push_back(adjacencies);

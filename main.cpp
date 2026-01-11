@@ -2,6 +2,7 @@
 #include <string>
 #include "graph.cpp"
 #include "adjacency_matrix.cpp"
+#include "adjacency_list.cpp"
 
 Graph *buildMenu(char &userChar, bool &progress)
 {
@@ -23,7 +24,8 @@ Graph *buildMenu(char &userChar, bool &progress)
     {
         std::cout << "\nYou selected option 1..." << std::endl;
         std::cin.clear();
-        std::cout << "   Please enter the name of the file containing a graph... " << std::endl;
+        std::cout << "   Please enter the name of the file containing a graph..." << std::endl;
+        std::cout << "   Valid weights range [-999, 999], valid nodes range [1,10]..." << std::endl;
         std::cout << "\nYour input: ";
         std::cin >> fileName;
 
@@ -39,7 +41,15 @@ Graph *buildMenu(char &userChar, bool &progress)
     }
     case '2':
     {
-        std::cout << "\nYou selected option 1..." << std::endl;
+        std::cout << "\nYou selected option 2..." << std::endl;
+        std::cin.clear();
+        std::cout << "   Please enter the name of the file containing a graph..." << std::endl;
+        std::cout << "   -0 is an empry node, valid weights range [-999, 999], valid nodes range [1,10]..." << std::endl;
+        std::cout << "\nYour input: ";
+        std::cin >> fileName;
+
+        Graph *example = new AdjacencyList(fileName);
+        example->outputGraph();
         break;
     }
     case 'x':
