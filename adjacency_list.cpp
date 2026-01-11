@@ -19,10 +19,6 @@ private:
         }
     };
 
-    void checkValidity()
-    {
-    }
-
     std::vector<std::vector<Node *>> list;
 
 public:
@@ -63,6 +59,11 @@ public:
                     number *= 10;
                     number += (fileLine[i] - '0') * sign;
                 }
+                else if (number > 1000 || number < -1000)
+                {
+                    std::cout << "Value of weight is not in range." << std::endl;
+                    return;
+                }
                 else if (fileLine[i] == ',' || fileLine[i] == ']')
                 {
                     if ((sign == -1 && number != 0) || sign == 1)
@@ -77,6 +78,22 @@ public:
             list.push_back(links);
             links.clear();
             nodeNum = 0;
+        }
+
+        if (list.size() > 0)
+        {
+            setValid(true);
+        }
+    }
+
+    ~AdjacencyList()
+    {
+        for (int i = 0; i < list.size(); i++)
+        {
+            for (int j = 0; j < list[i].size(); j++)
+            {
+                delete list[i][j];
+            }
         }
     }
 

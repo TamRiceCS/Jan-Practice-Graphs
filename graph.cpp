@@ -13,6 +13,9 @@ private:
     bool valid = false;
 
 public:
+    virtual ~Graph()
+    {
+    }
     void setAsList()
     {
         aList = true;

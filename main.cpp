@@ -15,8 +15,9 @@ Graph *buildMenu(char &userChar, bool &progress)
     std::cout << "\nYour input: ";
     std::cin.clear();
     std::cin >> userChar;
-
     std::string fileName = "";
+
+    Graph *example = NULL;
 
     switch (userChar)
     {
@@ -25,11 +26,11 @@ Graph *buildMenu(char &userChar, bool &progress)
         std::cout << "\nYou selected option 1..." << std::endl;
         std::cin.clear();
         std::cout << "   Please enter the name of the file containing a graph..." << std::endl;
-        std::cout << "   Valid weights range [-999, 999], valid nodes range [1,10]..." << std::endl;
+        std::cout << "   0s are treated as empty spots, Valid weights range [-999, 999], valid nodes range [1,10]..." << std::endl;
         std::cout << "\nYour input: ";
         std::cin >> fileName;
 
-        Graph *example = new AdjacencyMatrix(fileName);
+        example = new AdjacencyMatrix(fileName);
         example->outputGraph();
 
         if (example->getValidity())
@@ -48,7 +49,7 @@ Graph *buildMenu(char &userChar, bool &progress)
         std::cout << "\nYour input: ";
         std::cin >> fileName;
 
-        Graph *example = new AdjacencyList(fileName);
+        example = new AdjacencyList(fileName);
         example->outputGraph();
         break;
     }
@@ -59,7 +60,7 @@ Graph *buildMenu(char &userChar, bool &progress)
     }
     }
     progress = true;
-    return NULL;
+    return example;
 }
 
 char optionMenu(char &userChar)
@@ -92,7 +93,6 @@ int main()
     char userChar = '-';
     std::string userStr = "";
     bool progress = true;
-    // include a generic graph variable
 
     std::cout << "\nWelcome to my graph practice code." << std::endl;
     Graph *example = NULL;

@@ -72,18 +72,17 @@ public:
                     number *= 10;
                     number += (fileLine[i] - '0') * sign;
                 }
+                else if (number > 1000 || number < -1000)
+                {
+                    std::cout << "Your graph contains a node not within the valid range..." << std::endl;
+                    matrix.clear();
+                    return;
+                }
                 else if (fileLine[i] == ',' || fileLine[i] == ']')
                 {
                     adjacencies.push_back(number);
                     number = 0;
                     sign = 1;
-                }
-
-                if (number > 1000 || number < -1000)
-                {
-                    std::cout << "Your graph contains a node not within the valid range..." << std::endl;
-                    matrix.clear();
-                    return;
                 }
             }
             matrix.push_back(adjacencies);
