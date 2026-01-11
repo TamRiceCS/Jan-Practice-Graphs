@@ -22,6 +22,7 @@ private:
     std::vector<std::vector<Node *>> list;
 
 public:
+    // data leaks may be happening here when an invalid input is discovered, create a cleanup helper to call then return
     AdjacencyList(std::string fileName)
     {
         std::ifstream vectorFile(fileName);
