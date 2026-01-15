@@ -7,7 +7,7 @@
 Graph *buildMenu(char &userChar, bool &progress)
 {
     // will need to later include graph variable as a parameter
-    std::cout << "\n\nPlease generate a graph to work with, empty graphs (no nodes) are invalid." << std::endl;
+    std::cout << "\n\nPlease generate a graph to work with, empty graphs (no nodes) are invalid. All nodes are zero indexed..." << std::endl;
     std::cout << "   1. Generate an adjacency matrix (2D Matrix)..." << std::endl;
     std::cout << "   2. Generate an adjacency list (Vector of Nodes)..." << std::endl;
     std::cout << "   Press \'x\' to exit the program..." << std::endl;
@@ -38,6 +38,10 @@ Graph *buildMenu(char &userChar, bool &progress)
             progress = true;
             return example;
         }
+        else
+        {
+            std::cout << "   The given graph is not valid..." << std::endl;
+        }
         break;
     }
     case '2':
@@ -51,6 +55,17 @@ Graph *buildMenu(char &userChar, bool &progress)
 
         example = new AdjacencyList(fileName);
         example->outputGraph();
+
+        if (example->getValidity())
+        {
+            return example;
+        }
+        else
+        {
+            std::cout << "   The given graph is not valid..." << std::endl;
+            delete example;
+            example = NULL;
+        }
         break;
     }
     case 'x':
@@ -63,9 +78,10 @@ Graph *buildMenu(char &userChar, bool &progress)
     return example;
 }
 
-char optionMenu(char &userChar)
+char optionMenu(char &userChar, Graph *example)
 {
     std::cout << "\nPick an algorithm to run on your graph..." << std::endl;
+    std::cout << "   1. Run BFS algorithm..." << std::endl;
     std::cout << "   Press \'b\' to enter another graph..." << std::endl;
     std::cout << "   Press \'x\' to exit the program..." << std::endl;
 
@@ -78,6 +94,18 @@ char optionMenu(char &userChar)
     case 'x':
     {
         return 'x';
+    }
+    case '1':
+    {
+        std::cout << "\nYou selected option 1..." << std::endl;
+        std::cout << "   What node would you like to start BFS at?" << std::endl;
+
+        int node = 0;
+        std::cout << "\nYour input: ";
+        std::cin.clear();
+        std::cin >> node;
+
+        example->BFStraversal(node);
     }
     default:
     {
@@ -105,7 +133,7 @@ int main()
         }
         else
         {
-            char event = optionMenu(userChar);
+            char event = optionMenu(userChar, example);
             if (event == 'x')
             {
                 progress = false;

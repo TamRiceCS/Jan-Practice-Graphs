@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <queue>
 #include <fstream>
 
 class Graph
@@ -8,9 +9,9 @@ class Graph
 private:
     bool aList = false;
     bool aMatrix = false;
+    bool valid = false;
     bool directed = false;
     bool hasNegative = false;
-    bool valid = false;
 
 public:
     virtual ~Graph()
@@ -21,7 +22,7 @@ public:
         aList = true;
         aMatrix = false;
     }
-    void setaMatrix()
+    void setAsMatrix()
     {
         aMatrix = true;
         aList = false;
@@ -34,26 +35,30 @@ public:
     {
         return valid;
     }
-    virtual void outputGraph()
-    {
-    }
-    // virtual void setAsMatrix();
-    // virtual void setAsDirected();
-    // virtual void setHasNegative();
 
-    // virtual void outputGraph();
-    // virtual void BFStraversal();
-    // virtual void DFStraversal();
-    // virtual void detectCycle(); // Contains code for both directed and undirected. Make call simple.
-    // virtual void dijkstraShortest();
-    // virtual void bellmanFordShortest();
-    // virtual void floydWarshallShortest();
-    // virtual void primMST();
-    // virtual void kruskalMST();
-    // virtual void boruvkaMST();
-    // virtual void kahnTopological();
-    // virtual void connectivity();
-    // virtual void fordFulkersonFlow();
-    // virtual void kargerFlow();
-    // virtual void dinicFlow();
+    void setNegative(bool fact)
+    {
+        hasNegative = fact;
+    }
+
+    bool getNegativeStatus()
+    {
+        return hasNegative;
+    }
+
+    virtual void outputGraph() = 0;
+    virtual void BFStraversal(int node) = 0;
+    //  virtual void DFStraversal();
+    //  virtual void detectCycle(); // Contains code for both directed and undirected. Make call simple.
+    //  virtual void dijkstraShortest();
+    //  virtual void bellmanFordShortest();
+    //  virtual void floydWarshallShortest();
+    //  virtual void primMST();
+    //  virtual void kruskalMST();
+    //  virtual void boruvkaMST();
+    //  virtual void kahnTopological();
+    //  virtual void connectivity();
+    //  virtual void fordFulkersonFlow();
+    //  virtual void kargerFlow();
+    //  virtual void dinicFlow();
 };

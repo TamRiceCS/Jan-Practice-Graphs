@@ -22,7 +22,6 @@ private:
     std::vector<std::vector<Node *>> list;
 
 public:
-    // data leaks may be happening here when an invalid input is discovered, create a cleanup helper to call then return
     AdjacencyList(std::string fileName)
     {
         std::ifstream vectorFile(fileName);
@@ -49,6 +48,11 @@ public:
             std::vector<Node *> links;
             int number = 0;
 
+            if (fileLine == "[]")
+            {
+                continue;
+            }
+
             for (int i = 0; i < fileLine.size(); i++)
             {
                 if (fileLine[i] == '-')
@@ -63,6 +67,7 @@ public:
                 else if (number > 1000 || number < -1000)
                 {
                     std::cout << "Value of weight is not in range." << std::endl;
+                    setValid(false);
                     return;
                 }
                 else if (fileLine[i] == ',' || fileLine[i] == ']')
@@ -76,8 +81,11 @@ public:
                     nodeNum++;
                 }
             }
-            list.push_back(links);
-            links.clear();
+            if (links.size() > 0)
+            {
+                list.push_back(links);
+                links.clear();
+            }
             nodeNum = 0;
         }
 
@@ -118,6 +126,38 @@ public:
                 else
                 {
                     std::cout << "-> " << list[i][j]->destinationNode << ": " << list[i][j]->weight << std::endl;
+                }
+            }
+        }
+    }
+
+    void BFStraversal(int node)
+    {
+        if (node >= list.size())
+        {
+            std::cout << "This node is out of bounds, please try again." << std::endl;
+            return;
+        }
+
+        std::queue<int> adjacencies;
+        std::vector<bool> visited(list.size(), false);
+
+        adjacencies.push(node);
+
+        while (!adjacencies.empty())
+        {
+            int parent = adjacencies.front();
+            std::cout << "   Visited " << parent << std::endl;
+            adjacencies.pop();
+            visited[parent] = true;
+
+            for (int i = 0; i < list[parent].size(); i++)
+            {
+                int child = list[parent][i]->destinationNode;
+                if (!visited[child])
+                {
+                    adjacencies.push(child);
+                    visited[child] = true;
                 }
             }
         }

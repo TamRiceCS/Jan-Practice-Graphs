@@ -90,6 +90,7 @@ public:
         }
 
         checkValidity();
+        setAsMatrix();
     }
 
     void outputGraph()
@@ -112,6 +113,37 @@ public:
                 else
                 {
                     std::cout << matrix[i][j] << "]" << std::endl;
+                }
+            }
+        }
+    }
+
+    void BFStraversal(int node)
+    {
+        if (node >= matrix.size())
+        {
+            std::cout << "This node is out of bounds, please try again." << std::endl;
+            return;
+        }
+
+        std::queue<int> adjacencies;
+        std::vector<bool> visited(matrix.size(), false);
+
+        adjacencies.push(node);
+
+        while (!adjacencies.empty())
+        {
+            int parent = adjacencies.front();
+            std::cout << "   Visited " << parent << std::endl;
+            adjacencies.pop();
+            visited[parent] = true;
+
+            for (int i = 0; i < matrix[parent].size(); i++)
+            {
+                if (!visited[i] && matrix[parent][i] != 0)
+                {
+                    adjacencies.push(i);
+                    visited[i] = true;
                 }
             }
         }
