@@ -82,6 +82,7 @@ char optionMenu(char &userChar, Graph *example)
 {
     std::cout << "\nPick an algorithm to run on your graph..." << std::endl;
     std::cout << "   1. Run BFS algorithm..." << std::endl;
+    std::cout << "   2. Run DFS algorithm..." << std::endl;
     std::cout << "   Press \'b\' to enter another graph..." << std::endl;
     std::cout << "   Press \'x\' to exit the program..." << std::endl;
 
@@ -106,6 +107,18 @@ char optionMenu(char &userChar, Graph *example)
         std::cin >> node;
 
         example->BFStraversal(node);
+    }
+    case '2':
+    {
+        std::cout << "\nYou selected option 2..." << std::endl;
+        std::cout << "   What node would you like to start DFS at?" << std::endl;
+
+        int node = 0;
+        std::cout << "\nYour input: ";
+        std::cin.clear();
+        std::cin >> node;
+
+        example->DFStraversal(node);
     }
     default:
     {

@@ -148,4 +148,35 @@ public:
             }
         }
     }
+
+    void DFStraversal(int node)
+    {
+        if (node >= matrix.size())
+        {
+            std::cout << "This node is out of bounds, please try again." << std::endl;
+            return;
+        }
+
+        std::stack<int> adjacencies;
+        std::vector<bool> visited(matrix.size(), false);
+
+        adjacencies.push(node);
+
+        while (!adjacencies.empty())
+        {
+            int parent = adjacencies.top();
+            std::cout << "   Visited " << parent << std::endl;
+            adjacencies.pop();
+            visited[parent] = true;
+
+            for (int i = 0; i < matrix[parent].size(); i++)
+            {
+                if (!visited[i] && matrix[parent][i] != 0)
+                {
+                    adjacencies.push(i);
+                    visited[i] = true;
+                }
+            }
+        }
+    }
 };

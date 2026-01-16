@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <queue>
+#include <stack>
 #include <fstream>
 
 class Graph
@@ -48,7 +49,7 @@ public:
 
     virtual void outputGraph() = 0;
     virtual void BFStraversal(int node) = 0;
-    //  virtual void DFStraversal();
+    virtual void DFStraversal(int node) = 0;
     //  virtual void detectCycle(); // Contains code for both directed and undirected. Make call simple.
     //  virtual void dijkstraShortest();
     //  virtual void bellmanFordShortest();
