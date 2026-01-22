@@ -179,4 +179,52 @@ public:
             }
         }
     }
+
+    void dijkstraShortest(int node)
+    {
+
+        if (getNegativeStatus())
+        {
+            std::cout << "Dijkstra does not work on negative edge / cycle graphs..." << std::endl;
+            return;
+        }
+
+        if (node >= matrix.size())
+        {
+            std::cout << "This node is out of bounds, please try again." << std::endl;
+            return;
+        }
+
+        std::vector<int> distances(matrix.size(), INT_MAX);
+        std::queue<int> next;
+
+        next.push(node);
+        distances[node] = 0;
+
+        while (!next.empty())
+        {
+            int parent = next.front();
+            next.pop();
+
+            for (int i = 0; i < matrix[parent].size(); i++)
+            {
+                if ((distances[parent] + matrix[parent][i] < distances[i]) && matrix[parent][i] != 0)
+                {
+                    distances[i] = distances[parent] + matrix[parent][i];
+                    next.push(i);
+                    std::cout << "  New distance of " << distances[i] << " found for " << i << std::endl;
+                }
+                else if (matrix[parent][i] != 0)
+                {
+                    std::cout << "   " << distances[i] << " is better than " << distances[parent] + matrix[parent][i] << std::endl;
+                }
+            }
+        }
+
+        std::cout << "\nThe ending distances are..." << std::endl;
+        for (int i = 0; i < distances.size(); i++)
+        {
+            std::cout << "   Node " << i << "\'s shortest distance is " << distances[i] << std::endl;
+        }
+    }
 };

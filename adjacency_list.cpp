@@ -194,4 +194,9 @@ public:
             }
         }
     }
+
+    void dijkstraShortest(int node)
+    {
+        std::vector<int> visited(list.size(), false);
+    }
 };
