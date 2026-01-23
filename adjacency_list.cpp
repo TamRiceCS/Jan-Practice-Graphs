@@ -197,6 +197,50 @@ public:
 
     void dijkstraShortest(int node)
     {
-        std::vector<int> visited(list.size(), false);
+        if (getNegativeStatus())
+        {
+            std::cout << "Dijkstra does not work on negative edge / cycle graphs..." << std::endl;
+            return;
+        }
+
+        if (node >= list.size())
+        {
+            std::cout << "This node is out of bounds, please try again." << std::endl;
+            return;
+        }
+
+        std::vector<int> distances(list.size(), INT_MAX);
+        std::queue<int> next;
+
+        next.push(node);
+        distances[node] = 0;
+
+        while (!next.empty())
+        {
+            int parent = next.front();
+            next.pop();
+
+            for (int i = 0; i < list[parent].size(); i++)
+            {
+                if (list[parent][i]->weight + distances[parent] < distances[list[parent][i]->destinationNode])
+                {
+                    distances[list[parent][i]->destinationNode] = list[parent][i]->weight + distances[parent];
+                    next.push(list[parent][i]->destinationNode);
+                    std::cout << "  New distance of " << distances[list[parent][i]->destinationNode] << " found for ";
+                    std::cout << list[parent][i]->destinationNode << std::endl;
+                }
+                else
+                {
+                    std::cout << "   " << distances[list[parent][i]->destinationNode] << " is better than ";
+                    std::cout << list[parent][i]->weight + distances[parent] << std::endl;
+                }
+            }
+        }
+
+        std::cout << "\nThe ending distances are..." << std::endl;
+        for (int i = 0; i < distances.size(); i++)
+        {
+            std::cout << "   Node " << i << "\'s shortest distance is " << distances[i] << std::endl;
+        }
     }
 };
