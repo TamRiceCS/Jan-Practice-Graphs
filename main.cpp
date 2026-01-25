@@ -84,6 +84,7 @@ char optionMenu(char &userChar, Graph *example)
     std::cout << "   1. Run BFS algorithm..." << std::endl;
     std::cout << "   2. Run DFS algorithm..." << std::endl;
     std::cout << "   3. Run Dijksta's Shortest Path algorithm..." << std::endl;
+    std::cout << "   4. Run Bellman Foed's Shortest Path algorithm..." << std::endl;
     std::cout << "   Press \'b\' to enter another graph..." << std::endl;
     std::cout << "   Press \'x\' to exit the program..." << std::endl;
 
@@ -123,7 +124,7 @@ char optionMenu(char &userChar, Graph *example)
     }
     case '3':
     {
-        std::cout << "\nYou selected option 2..." << std::endl;
+        std::cout << "\nYou selected option 3..." << std::endl;
         std::cout << "   What node would you like to start Dijkstra's Shortest Path Algorithm at?" << std::endl;
 
         int node = 0;
@@ -132,6 +133,18 @@ char optionMenu(char &userChar, Graph *example)
         std::cin >> node;
 
         example->dijkstraShortest(node);
+    }
+    case '4':
+    {
+        std::cout << "\nYou selected option 2..." << std::endl;
+        std::cout << "   What node would you like to start Bellman-Ford's Shortest Path Algorithm at?" << std::endl;
+
+        int node = 0;
+        std::cout << "\nYour input: ";
+        std::cin.clear();
+        std::cin >> node;
+
+        example->bellmanFordShortest(node);
     }
     default:
     {

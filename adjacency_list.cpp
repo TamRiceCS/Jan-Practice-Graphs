@@ -243,4 +243,53 @@ public:
             std::cout << "   Node " << i << "\'s shortest distance is " << distances[i] << std::endl;
         }
     }
+
+    void bellmanFordShortest(int node)
+    {
+        if (node >= list.size())
+        {
+            std::cout << "This node is out of bounds, please try again." << std::endl;
+            return;
+        }
+
+        std::vector<int> distances(list.size(), INT_MAX);
+        distances[node] = 0;
+
+        for (int i = 0; i < list.size() - 1; i++)
+        {
+            std::cout << "\nNormalization at " << i + 1 << " out of " << list.size() - 1 << std::endl;
+            for (int j = 0; j < list.size(); j++)
+            {
+                for (int k = 0; k < list[j].size(); k++)
+                {
+                    if (distances[j] == INT_MAX)
+                    {
+                        continue;
+                    }
+                    else if (distances[list[j][k]->destinationNode] > list[j][k]->weight + distances[j])
+                    {
+                        distances[list[j][k]->destinationNode] = list[j][k]->weight + distances[j];
+                        std::cout << "   New better weight found for " << list[j][k]->destinationNode << " it is ";
+                        std::cout << distances[list[j][k]->destinationNode] << std::endl;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < list.size(); i++)
+        {
+            if (distances[i] == INT_MAX)
+            {
+                continue;
+            }
+            for (int j = 0; j < list[i].size(); j++)
+            {
+                if (distances[list[i][j]->destinationNode] > list[i][j]->weight + distances[i])
+                {
+                    std::cout << "\nGraph has a negative cycle..." << std::endl;
+                    return;
+                }
+            }
+        }
+    }
 };

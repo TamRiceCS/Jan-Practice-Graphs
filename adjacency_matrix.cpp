@@ -227,4 +227,65 @@ public:
             std::cout << "   Node " << i << "\'s shortest distance is " << distances[i] << std::endl;
         }
     }
+
+    void bellmanFordShortest(int node)
+    {
+        if (node >= matrix.size())
+        {
+            std::cout << "This node is out of bounds, please try again." << std::endl;
+            return;
+        }
+
+        std::vector<int> distances(matrix.size(), INT_MAX);
+        distances[node] = 0;
+
+        for (int k = 0; k < matrix.size() - 1; k++)
+        {
+            std::cout << "\nNormalization at " << k + 1 << " out of " << matrix.size() - 1 << std::endl;
+            for (int i = 0; i < matrix.size(); i++)
+            {
+                for (int j = 0; j < matrix[i].size(); j++)
+                {
+                    if (matrix[i][j] == 0 || distances[i] == INT_MAX)
+                    {
+                        continue;
+                    }
+                    else if (distances[j] > matrix[i][j] + distances[i])
+                    {
+                        distances[j] = matrix[i][j] + distances[i];
+                        std::cout << "   New better weight found for " << j << " it is " << distances[j] << std::endl;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < matrix.size(); i++)
+        {
+            for (int j = 0; j < matrix[i].size(); j++)
+            {
+                if (matrix[i][j] == 0)
+                {
+                    continue;
+                }
+                else if (distances[j] > matrix[i][j] + distances[i])
+                {
+                    std::cout << "\nGraph has a negative cycle..." << std::endl;
+                    return;
+                }
+            }
+        }
+
+        std::cout << "\nThe ending distances are..." << std::endl;
+        for (int i = 0; i < distances.size(); i++)
+        {
+            if (distances[i] != INT_MAX)
+            {
+                std::cout << "   Node " << i << "\'s shortest distance is " << distances[i] << std::endl;
+            }
+            else
+            {
+                std::cout << "   Node " << i << " could not be accessed from the starting node of " << node << std::endl;
+            }
+        }
+    }
 };

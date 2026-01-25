@@ -52,7 +52,7 @@ public:
     virtual void DFStraversal(int node) = 0;
     //  virtual void detectCycle(); // Contains code for both directed and undirected. Make call simple.
     virtual void dijkstraShortest(int node) = 0;
-    //  virtual void bellmanFordShortest();
+    virtual void bellmanFordShortest(int node) = 0;
     //  virtual void floydWarshallShortest();
     //  virtual void primMST();
     //  virtual void kruskalMST();
