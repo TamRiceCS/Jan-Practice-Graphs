@@ -53,7 +53,7 @@ public:
     //  virtual void detectCycle(); // Contains code for both directed and undirected. Make call simple.
     virtual void dijkstraShortest(int node) = 0;
     virtual void bellmanFordShortest(int node) = 0;
-    //  virtual void floydWarshallShortest();
+    virtual void floydWarshallShortest() = 0;
     //  virtual void primMST();
     //  virtual void kruskalMST();
     //  virtual void boruvkaMST();

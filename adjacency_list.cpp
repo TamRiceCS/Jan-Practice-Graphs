@@ -292,4 +292,54 @@ public:
             }
         }
     }
+
+    void floydWarshallShortest()
+    {
+        std::vector<std::vector<int>> allDist(list.size(), std::vector<int>(list.size(), INT_MAX));
+
+        for (int i = 0; i < list.size(); i++)
+        {
+            allDist[i][i] = 0;
+        }
+
+        for (int i = 0; i < list.size(); i++)
+        {
+            for (int j = 0; j < list[i].size(); j++)
+            {
+                if (i == j)
+                {
+                    continue;
+                }
+                allDist[i][j] = list[i][j]->weight;
+            }
+        }
+
+        for (int i = 0; i < list.size(); i++)
+        {
+            for (int j = 0; j < list.size(); j++)
+            {
+                for (int k = 0; k < list.size(); k++)
+                {
+                    if (allDist[i][k] == INT_MAX || allDist[j][k] == INT_MAX)
+                    {
+                        continue;
+                    }
+                    if (allDist[i][j] > allDist[i][k] + allDist[j][k])
+                    {
+                        allDist[i][j] = allDist[i][k] + allDist[j][k];
+                    }
+                }
+            }
+        }
+
+        std::cout << "\nAll known distances..." << std::endl;
+        for (int i = 0; i < allDist.size(); i++)
+        {
+            std::cout << " Starting from node " << i << std::endl;
+            for (int j = 0; j < allDist[i].size(); j++)
+            {
+                std::cout << "   You can reach " << j << " with a weight of " << allDist[i][j] << std::endl;
+            }
+        }
+    }
 };
