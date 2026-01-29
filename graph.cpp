@@ -15,6 +15,19 @@ private:
     bool hasNegative = false;
 
 public:
+    class Compare
+    {
+    public:
+        bool operator()(std::vector<int> a, std::vector<int> b)
+        {
+            if (a[0] > b[0])
+            {
+                return true;
+            }
+            return false;
+        }
+    };
+
     virtual ~Graph()
     {
     }
@@ -54,7 +67,7 @@ public:
     virtual void dijkstraShortest(int node) = 0;
     virtual void bellmanFordShortest(int node) = 0;
     virtual void floydWarshallShortest() = 0;
-    //  virtual void primMST();
+    virtual void primMST(int node) = 0;
     //  virtual void kruskalMST();
     //  virtual void boruvkaMST();
     //  virtual void kahnTopological();

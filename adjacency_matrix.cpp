@@ -341,4 +341,52 @@ public:
             }
         }
     }
+
+    void primMST(int node)
+    {
+        // pair is distance, source, destination
+        std::priority_queue<std::vector<int>, std::vector<std::vector<int>>, Compare> cheapest;
+        std::vector<bool> visited(matrix.size(), false);
+        std::queue<int> traverse;
+
+        if (node >= matrix.size())
+        {
+            std::cout << "This node is out of bounds, please try again." << std::endl;
+            return;
+        }
+
+        traverse.push(node);
+        visited[node] = true;
+
+        while (!traverse.empty())
+        {
+            int parent = traverse.front();
+            traverse.pop();
+
+            for (int i = 0; i < matrix[parent].size(); i++)
+            {
+                if (matrix[parent][i] != 0)
+                {
+                    std::vector<int> temp = {matrix[parent][i], parent, i};
+                    cheapest.emplace(temp);
+                }
+            }
+            while (!cheapest.empty())
+            {
+                int weight = cheapest.top()[0];
+                int source = cheapest.top()[1];
+                int destination = cheapest.top()[2];
+                cheapest.pop();
+
+                if (!visited[destination])
+                {
+                    std::cout << "   New branch of minimum spanning tree added from " << source << " to ";
+                    std::cout << destination << " with a weight of " << weight << std::endl;
+                    traverse.push(destination);
+                    visited[destination] = true;
+                    break;
+                }
+            }
+        }
+    }
 };

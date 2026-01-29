@@ -137,7 +137,7 @@ char optionMenu(char &userChar, Graph *example)
     }
     case '4':
     {
-        std::cout << "\nYou selected option 2..." << std::endl;
+        std::cout << "\nYou selected option 4..." << std::endl;
         std::cout << "   What node would you like to start Bellman-Ford's Shortest Path Algorithm at?" << std::endl;
 
         int node = 0;
@@ -149,8 +149,20 @@ char optionMenu(char &userChar, Graph *example)
     }
     case '5':
     {
-        std::cout << "\nYou selected option 2..." << std::endl;
+        std::cout << "\nYou selected option 5..." << std::endl;
         example->floydWarshallShortest();
+    }
+    case '6':
+    {
+        std::cout << "\nYou selected option 6..." << std::endl;
+        std::cout << "   What node would you like to start Prim's MST algorithm at?" << std::endl;
+
+        int node = 0;
+        std::cout << "\nYour input: ";
+        std::cin.clear();
+        std::cin >> node;
+
+        example->primMST(node);
     }
     default:
     {
