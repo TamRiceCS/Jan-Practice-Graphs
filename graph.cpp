@@ -60,18 +60,18 @@ public:
         return hasNegative;
     }
 
+    //  virtual void detectCycle(); // Contains code for both directed and undirected. Make call simple.
+    // virtual void detectDirectedness();
+    //  virtual void connectivity();
     virtual void outputGraph() = 0;
     virtual void BFStraversal(int node) = 0;
     virtual void DFStraversal(int node) = 0;
-    //  virtual void detectCycle(); // Contains code for both directed and undirected. Make call simple.
     virtual void dijkstraShortest(int node) = 0;
     virtual void bellmanFordShortest(int node) = 0;
     virtual void floydWarshallShortest() = 0;
     virtual void primMST(int node) = 0;
     virtual void kruskalMST() = 0;
-    //  virtual void boruvkaMST();
-    //  virtual void kahnTopological();
-    //  virtual void connectivity();
+    virtual void kahnTopological() = 0;
     //  virtual void fordFulkersonFlow();
     //  virtual void kargerFlow();
     //  virtual void dinicFlow();

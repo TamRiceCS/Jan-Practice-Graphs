@@ -439,4 +439,68 @@ public:
             }
         }
     }
+
+    void kahnTopological()
+    {
+        // TODO: Implement checks that the graph is a DAG before implementation
+        std::vector<int> weightedness(matrix.size(), 0);
+
+        for (int i = 0; i < matrix.size(); i++)
+        {
+            for (int j = 0; j < matrix[i].size(); j++)
+            {
+                if (matrix[i][j] != 0)
+                {
+                    weightedness[j]++;
+                }
+            }
+        }
+
+        std::queue<int> tour;
+        std::queue<int> answer;
+        int visits = 0;
+
+        for (int i = 0; i < weightedness.size(); i++)
+        {
+            if (weightedness[i] == 0)
+            {
+                tour.push(i);
+            }
+        }
+
+        while (!tour.empty() && visits <= matrix.size())
+        {
+            int parent = tour.front();
+            tour.pop();
+            answer.push(parent);
+            visits++;
+
+            for (int i = 0; i < matrix[parent].size(); i++)
+            {
+                if (matrix[parent][i] != 0)
+                {
+                    weightedness[i]--;
+                    if (weightedness[i] == 0)
+                    {
+                        tour.push(i);
+                    }
+                }
+            }
+        }
+
+        if (visits != matrix.size())
+        {
+            std::cout << " A topological sort is not possible..." << std::endl;
+            return;
+        }
+
+        visits = 0;
+        std::cout << "\nThe topological sort is as follows: " << std::endl;
+        while (!answer.empty())
+        {
+            std::cout << "  " << visits << "th : " << answer.front() << " node" << std::endl;
+            visits++;
+            answer.pop();
+        }
+    }
 };

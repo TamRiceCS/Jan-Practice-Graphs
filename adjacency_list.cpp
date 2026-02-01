@@ -81,11 +81,8 @@ public:
                     nodeNum++;
                 }
             }
-            if (links.size() > 0)
-            {
-                list.push_back(links);
-                links.clear();
-            }
+            list.push_back(links);
+            links.clear();
             nodeNum = 0;
         }
 
@@ -112,11 +109,10 @@ public:
         {
             return;
         }
-
-        std::cout << "\n";
         for (int i = 0; i < list.size(); i++)
         {
-            std::cout << i << " has child(ren): ";
+            std::cout << "\n"
+                      << i << " has child(ren): ";
             for (int j = 0; j < list[i].size(); j++)
             {
                 if (j != list[i].size() - 1)
@@ -125,9 +121,10 @@ public:
                 }
                 else
                 {
-                    std::cout << "-> " << list[i][j]->destinationNode << ": " << list[i][j]->weight << std::endl;
+                    std::cout << "-> " << list[i][j]->destinationNode << ": " << list[i][j]->weight;
                 }
             }
+            std::cout << std::endl;
         }
     }
 
@@ -430,6 +427,64 @@ public:
             {
                 return;
             }
+        }
+    }
+
+    void kahnTopological()
+    {
+        std::vector<int> weightedness(list.size(), 0);
+
+        for (int i = 0; i < list.size(); i++)
+        {
+            for (int j = 0; j < list[i].size(); j++)
+            {
+                weightedness[list[i][j]->destinationNode]++;
+            }
+        }
+
+        std::queue<int> tour;
+        std::queue<int> answer;
+        int visits = 0;
+
+        for (int i = 0; i < weightedness.size(); i++)
+        {
+            if (weightedness[i] == 0)
+            {
+                tour.push(i);
+            }
+        }
+
+        while (!tour.empty() && visits <= list.size())
+        {
+            int parent = tour.front();
+            tour.pop();
+            answer.push(parent);
+            visits++;
+
+            for (int i = 0; i < list[parent].size(); i++)
+            {
+                int child = list[parent][i]->destinationNode;
+                weightedness[child]--;
+                if (weightedness[child] == 0)
+                {
+                    tour.push(child);
+                }
+            }
+        }
+
+        if (visits != list.size())
+        {
+            std::cout << " A topological sort is not possible..." << std::endl;
+            return;
+        }
+
+        visits = 0;
+        std::cout << "\nThe topological sort is as follows: " << std::endl;
+        while (!answer.empty())
+        {
+            std::cout << "  " << visits << "th : " << answer.front() << " node" << std::endl;
+            visits++;
+            answer.pop();
         }
     }
 };

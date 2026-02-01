@@ -89,6 +89,7 @@ char optionMenu(char &userChar, Graph *example)
     std::cout << "   5. Run Floyd-Warshall Shortest Path algorithm..." << std::endl;
     std::cout << "   6. Run Prim's Minimum Spanning Tree algorithm..." << std::endl;
     std::cout << "   7. Run Kruskal's Minimum Spanning Tree algorithm..." << std::endl;
+    std::cout << "   8. Run Kahn's Topological Sort algorithm..." << std::endl;
     std::cout << "   Press \'b\' to enter another graph..." << std::endl;
     std::cout << "   Press \'x\' to exit the program..." << std::endl;
 
@@ -171,6 +172,11 @@ char optionMenu(char &userChar, Graph *example)
     {
         std::cout << "\nYou selected option 7..." << std::endl;
         example->kruskalMST();
+    }
+    case '8':
+    {
+        std::cout << "\nYou selected option 8..." << std::endl;
+        example->kahnTopological();
     }
     default:
     {
