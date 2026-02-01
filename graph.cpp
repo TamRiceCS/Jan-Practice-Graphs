@@ -68,7 +68,7 @@ public:
     virtual void bellmanFordShortest(int node) = 0;
     virtual void floydWarshallShortest() = 0;
     virtual void primMST(int node) = 0;
-    //  virtual void kruskalMST();
+    virtual void kruskalMST() = 0;
     //  virtual void boruvkaMST();
     //  virtual void kahnTopological();
     //  virtual void connectivity();

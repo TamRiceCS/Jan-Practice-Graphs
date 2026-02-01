@@ -41,6 +41,7 @@ Graph *buildMenu(char &userChar, bool &progress)
         else
         {
             std::cout << "   The given graph is not valid..." << std::endl;
+            example = NULL;
         }
         break;
     }
@@ -86,6 +87,8 @@ char optionMenu(char &userChar, Graph *example)
     std::cout << "   3. Run Dijksta's Shortest Path algorithm..." << std::endl;
     std::cout << "   4. Run Bellman Ford's Shortest Path algorithm..." << std::endl;
     std::cout << "   5. Run Floyd-Warshall Shortest Path algorithm..." << std::endl;
+    std::cout << "   6. Run Prim's Minimum Spanning Tree algorithm..." << std::endl;
+    std::cout << "   7. Run Kruskal's Minimum Spanning Tree algorithm..." << std::endl;
     std::cout << "   Press \'b\' to enter another graph..." << std::endl;
     std::cout << "   Press \'x\' to exit the program..." << std::endl;
 
@@ -163,6 +166,11 @@ char optionMenu(char &userChar, Graph *example)
         std::cin >> node;
 
         example->primMST(node);
+    }
+    case '7':
+    {
+        std::cout << "\nYou selected option 7..." << std::endl;
+        example->kruskalMST();
     }
     default:
     {

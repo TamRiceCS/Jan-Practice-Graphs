@@ -388,4 +388,48 @@ public:
             }
         }
     }
+
+    void kruskalMST()
+    {
+        // pair is distance, source, destination
+        std::priority_queue<std::vector<int>, std::vector<std::vector<int>>, Compare> cheapest;
+        std::vector<bool> visited(list.size(), false);
+
+        for (int i = 0; i < list.size(); i++)
+        {
+            for (int j = 0; j < list[i].size(); j++)
+            {
+                std::vector<int> temp = {list[i][j]->weight, i, list[i][j]->destinationNode};
+                cheapest.emplace(temp);
+            }
+        }
+
+        int edges = list.size();
+        while (!cheapest.empty())
+        {
+            int weight = cheapest.top()[0];
+            int source = cheapest.top()[1];
+            int destination = cheapest.top()[2];
+            cheapest.pop();
+
+            if (visited[source] && visited[destination])
+            {
+                std::cout << "   Edge between " << source << " and " << destination << " of ";
+                std::cout << weight << " causes a cycle; the edge can't be used." << std::endl;
+            }
+            else
+            {
+                visited[source] = true;
+                visited[destination] = true;
+                std::cout << "  Edge between " << source << " and " << destination << " of ";
+                std::cout << weight << " is an MST branch!" << std::endl;
+                edges--;
+            }
+
+            if (edges == 1)
+            {
+                return;
+            }
+        }
+    }
 };

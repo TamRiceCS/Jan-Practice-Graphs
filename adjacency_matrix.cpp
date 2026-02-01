@@ -39,11 +39,14 @@ public:
             if (!vectorFile.is_open())
             {
                 std::cout << "Could not open the file..." << std::endl;
+                setValid(false);
+                return;
             }
         }
         catch (...)
         {
             std::cout << "Something went wrong with the file... Please try again..." << std::endl;
+            setValid(false);
             return;
         }
 
@@ -386,6 +389,53 @@ public:
                     visited[destination] = true;
                     break;
                 }
+            }
+        }
+    }
+
+    void kruskalMST()
+    {
+        // pair is distance, source, destination
+        std::priority_queue<std::vector<int>, std::vector<std::vector<int>>, Compare> cheapest;
+        std::vector<bool> visited(matrix.size(), false);
+
+        for (int i = 0; i < matrix.size(); i++)
+        {
+            for (int j = 0; j < matrix.size(); j++)
+            {
+                if (matrix[i][j] != 0)
+                {
+                    std::vector<int> temp = {matrix[i][j], i, j};
+                    cheapest.emplace(temp);
+                }
+            }
+        }
+
+        int edges = matrix.size();
+        while (!cheapest.empty())
+        {
+            int weight = cheapest.top()[0];
+            int source = cheapest.top()[1];
+            int destination = cheapest.top()[2];
+            cheapest.pop();
+
+            if (visited[source] && visited[destination])
+            {
+                std::cout << "   Edge between " << source << " and " << destination << " of ";
+                std::cout << weight << " causes a cycle and can't be used." << std::endl;
+            }
+            else
+            {
+                visited[source] = true;
+                visited[destination] = true;
+                std::cout << "  Edge between " << source << " and " << destination << " of ";
+                std::cout << weight << " is an MST branch!" << std::endl;
+                edges--;
+            }
+
+            if (edges == 1)
+            {
+                return;
             }
         }
     }
