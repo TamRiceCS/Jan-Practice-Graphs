@@ -178,8 +178,28 @@ char optionMenu(char &userChar, Graph *example)
         std::cout << "\nYou selected option 8..." << std::endl;
         example->kahnTopological();
     }
+    case '9':
+    {
+        std::cout << "\nYou selected option 6..." << std::endl;
+        std::cout << "   Which node is the source for Ford Fulkerson?" << std::endl;
+
+        int source = 0;
+        std::cout << "\n    Your input: ";
+        std::cin.clear();
+        std::cin >> source;
+
+        std::cout << "   \nWhich node is the destination (sink) for Ford Fulkerson?" << std::endl;
+
+        int sink = 0;
+        std::cout << "\n    Your input: ";
+        std::cin.clear();
+        std::cin >> sink;
+
+        example->fordFulkersonFlow(source, sink);
+    }
     default:
     {
+
         return userChar;
     }
     }

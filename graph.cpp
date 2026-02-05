@@ -50,6 +50,16 @@ public:
         return valid;
     }
 
+    bool getDirectedness()
+    {
+        return directed;
+    }
+
+    void setDirectedness(bool fact)
+    {
+        directed = fact;
+    }
+
     void setNegative(bool fact)
     {
         hasNegative = fact;
@@ -72,7 +82,7 @@ public:
     virtual void primMST(int node) = 0;
     virtual void kruskalMST() = 0;
     virtual void kahnTopological() = 0;
-    //  virtual void fordFulkersonFlow();
+    virtual void fordFulkersonFlow(int source, int destination) = 0;
     //  virtual void kargerFlow();
     //  virtual void dinicFlow();
 };

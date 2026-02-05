@@ -503,4 +503,114 @@ public:
             answer.pop();
         }
     }
+
+    bool fordBFS(int source, int destination, std::vector<int> &edges, std::vector<std::vector<int>> residual)
+    {
+        std::queue<int> travel;
+        std::vector<bool> visited(residual.size(), false);
+
+        travel.push(source);
+        visited[source] = true;
+
+        while (!travel.empty())
+        {
+            int worker = travel.front();
+            travel.pop();
+
+            std::cout << "  Visiting node " << worker << std::endl;
+
+            for (int i = 0; i < residual[worker].size(); i++)
+            {
+                if (residual[worker][i] > 0 && !visited[i])
+                {
+                    visited[i] = true;
+                    edges[i] = worker;
+
+                    if (i == destination)
+                    {
+                        std::cout << "Found the sink" << std::endl;
+                        return true;
+                    }
+                    travel.push(i);
+                }
+            }
+        }
+        return false;
+    }
+
+    void fordFulkersonFlow(int source, int destination)
+    {
+
+        int count = 0;
+
+        if (source > matrix.size() || destination > matrix.size())
+        {
+            std::cout << "The source or destination is not within range..." << std::endl;
+            return;
+        }
+
+        std::vector<std::vector<int>> residual(matrix.size());
+        for (int i = 0; i < matrix.size(); i++)
+        {
+            for (int j = 0; j < matrix[i].size(); j++)
+            {
+                residual[i].push_back(matrix[i][j]);
+            }
+        }
+
+        std::vector<int> edges(matrix.size(), -1);
+        int maxFlow = 0;
+        while (fordBFS(source, destination, edges, residual))
+        {
+            std::cout << "\nCount: " << count << std::endl;
+            count++;
+
+            int pathFlow = INT_MAX;
+            for (int i = destination; i != source; i = edges[i])
+            {
+                pathFlow = std::min(pathFlow, residual[edges[i]][i]);
+                std::cout << "  Current pathFlow: " << pathFlow << std::endl;
+            }
+
+            // starting from the destination
+            // as long as we aren't at the source
+            // travel to the node's parent
+
+            // this works because it's going from child node to parent node.
+            // the child then becomes the parent and the process repeats.
+            for (int i = destination; i != source; i = edges[i])
+            {
+                if (edges[i] == -1)
+                {
+                    continue;
+                }
+
+                std::cout << " Parent: " << edges[i] << " Child: " << i << " Flow: " << pathFlow << std::endl;
+                residual[edges[i]][i] -= pathFlow;
+                std::cout << " forward edge " << residual[edges[i]][i] << std::endl;
+                residual[i][edges[i]] += pathFlow;
+                std::cout << " backward edge " << residual[i][edges[i]] << std::endl;
+            }
+
+            edges.assign(matrix.size(), -1);
+            maxFlow += pathFlow;
+
+            if (count == 5)
+            {
+                break;
+            }
+
+            std::cout << "\n";
+            for (int i = 0; i < residual.size(); i++)
+            {
+                for (int j = 0; j < residual.size(); j++)
+                {
+                    std::cout << residual[i][j] << " ";
+                }
+                std::cout << "\n";
+            }
+        }
+
+        std::cout << "The max flow of this graph is " << maxFlow << std::endl;
+    }
 };

@@ -487,4 +487,7 @@ public:
             answer.pop();
         }
     }
+    void fordFulkersonFlow(int source, int destination)
+    {
+    }
 };
