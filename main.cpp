@@ -90,6 +90,7 @@ char optionMenu(char &userChar, Graph *example)
     std::cout << "   6. Run Prim's Minimum Spanning Tree algorithm..." << std::endl;
     std::cout << "   7. Run Kruskal's Minimum Spanning Tree algorithm..." << std::endl;
     std::cout << "   8. Run Kahn's Topological Sort algorithm..." << std::endl;
+    std::cout << "   9/ Run Ford Fulkerson Max Flow algorithm..." << std::endl;
     std::cout << "   Press \'b\' to enter another graph..." << std::endl;
     std::cout << "   Press \'x\' to exit the program..." << std::endl;
 
@@ -180,7 +181,7 @@ char optionMenu(char &userChar, Graph *example)
     }
     case '9':
     {
-        std::cout << "\nYou selected option 6..." << std::endl;
+        std::cout << "\nYou selected option 9..." << std::endl;
         std::cout << "   Which node is the source for Ford Fulkerson?" << std::endl;
 
         int source = 0;

@@ -517,8 +517,6 @@ public:
             int worker = travel.front();
             travel.pop();
 
-            std::cout << "  Visiting node " << worker << std::endl;
-
             for (int i = 0; i < residual[worker].size(); i++)
             {
                 if (residual[worker][i] > 0 && !visited[i])
@@ -528,7 +526,6 @@ public:
 
                     if (i == destination)
                     {
-                        std::cout << "Found the sink" << std::endl;
                         return true;
                     }
                     travel.push(i);
@@ -560,17 +557,19 @@ public:
 
         std::vector<int> edges(matrix.size(), -1);
         int maxFlow = 0;
+
+        std::cout << "\nStarting Ford Fulkerson" << std::endl;
         while (fordBFS(source, destination, edges, residual))
         {
-            std::cout << "\nCount: " << count << std::endl;
-            count++;
-
+            std::cout << std::endl;
             int pathFlow = INT_MAX;
             for (int i = destination; i != source; i = edges[i])
             {
                 pathFlow = std::min(pathFlow, residual[edges[i]][i]);
-                std::cout << "  Current pathFlow: " << pathFlow << std::endl;
+                std::cout << "   Used path from " << edges[i] << " to " << i << std::endl;
             }
+
+            std::cout << "   Max path flow is: " << pathFlow << std::endl;
 
             // starting from the destination
             // as long as we aren't at the source
@@ -584,33 +583,14 @@ public:
                 {
                     continue;
                 }
-
-                std::cout << " Parent: " << edges[i] << " Child: " << i << " Flow: " << pathFlow << std::endl;
                 residual[edges[i]][i] -= pathFlow;
-                std::cout << " forward edge " << residual[edges[i]][i] << std::endl;
                 residual[i][edges[i]] += pathFlow;
-                std::cout << " backward edge " << residual[i][edges[i]] << std::endl;
             }
 
             edges.assign(matrix.size(), -1);
             maxFlow += pathFlow;
-
-            if (count == 5)
-            {
-                break;
-            }
-
-            std::cout << "\n";
-            for (int i = 0; i < residual.size(); i++)
-            {
-                for (int j = 0; j < residual.size(); j++)
-                {
-                    std::cout << residual[i][j] << " ";
-                }
-                std::cout << "\n";
-            }
         }
 
-        std::cout << "The max flow of this graph is " << maxFlow << std::endl;
+        std::cout << "\nThe max flow of this graph is " << maxFlow << std::endl;
     }
 };
