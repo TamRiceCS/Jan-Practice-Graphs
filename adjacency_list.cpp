@@ -487,7 +487,130 @@ public:
             answer.pop();
         }
     }
+
+    bool fordBFS(int source, int destination, std::vector<Node *> &edges, std::vector<std::vector<Node *>> residual)
+    {
+        std::queue<int> travel;
+        std::vector<bool> visited(residual.size(), false);
+
+        travel.push(source);
+        visited[source] = true;
+
+        while (!travel.empty())
+        {
+            int worker = travel.front();
+            travel.pop();
+
+            for (int i = 0; i < residual[worker].size(); i++)
+            {
+                int child = residual[worker][i]->destinationNode;
+                int edgeWeight = residual[worker][i]->weight;
+
+                if (!visited[child] && residual[worker][i]->weight != 0)
+                {
+                    visited[child] = true;
+                    Node *edgeIndex = new Node(worker, edgeWeight);
+                    edges[child] = edgeIndex;
+
+                    if (child == destination)
+                    {
+                        return true;
+                    }
+
+                    travel.push(child);
+                }
+            }
+        }
+        return false;
+    }
+
     void fordFulkersonFlow(int source, int destination)
     {
+
+        int count = 0;
+
+        if (source > list.size() || destination > list.size())
+        {
+            std::cout << "The source or destination is not within range..." << std::endl;
+            return;
+        }
+
+        std::cout << "Starting Ford Fulkerson..." << std::endl;
+
+        std::vector<std::vector<Node *>>
+            residual(list.size()); // this will need to be deleted at end
+
+        for (int i = 0; i < list.size(); i++)
+        {
+            for (int j = 0; j < list[i].size(); j++)
+            {
+                Node *rIndex = new Node(list[i][j]->destinationNode, list[i][j]->weight);
+                residual[i].push_back(rIndex);
+            }
+        }
+
+        std::vector<Node *> edges(list.size(), NULL); // this will need to be deleted at end of every iter
+        int maxFlow = 0;
+
+        while (fordBFS(source, destination, edges, residual))
+        {
+            count++;
+            std::cout << std::endl;
+            int pathFlow = INT_MAX;
+
+            for (int i = destination; i != source; i = edges[i]->destinationNode)
+            {
+                pathFlow = std::min(pathFlow, edges[i]->weight);
+                std::cout << " Used path from " << edges[i]->destinationNode << " to " << i << std::endl;
+            }
+
+            std::cout << "  Max path flow is: " << pathFlow << std::endl;
+            maxFlow += pathFlow;
+
+            for (int i = destination; i != source; i = edges[i]->destinationNode)
+            {
+                int sourceNode = edges[i]->destinationNode;
+
+                for (int j = 0; j < residual[sourceNode].size(); j++)
+                {
+                    if (residual[sourceNode][j]->destinationNode == i)
+                    {
+                        residual[sourceNode][j]->weight -= pathFlow;
+                        std::cout << "   +Forward Edge " << sourceNode << " -> " << residual[sourceNode][j]->destinationNode;
+                        std::cout << " of " << residual[sourceNode][j]->weight << std::endl;
+
+                        break;
+                    }
+                }
+
+                // backward edge
+                for (int j = 0; j < residual[i].size() + 1; j++)
+                {
+                    if (j == residual[i].size())
+                    {
+                        Node *edgeIndex = new Node(sourceNode, pathFlow);
+                        std::cout << "   -Backward edge " << i << " -> " << sourceNode;
+                        std::cout << " of " << pathFlow << std::endl;
+                        residual[i].push_back(edgeIndex);
+                        break;
+                    }
+                    else if (residual[i][j]->destinationNode == sourceNode)
+                    {
+                        residual[i][j]->weight += pathFlow;
+                        std::cout << "   -Backward edge " << i << " -> " << residual[i][j]->destinationNode;
+                        std::cout << " of " << residual[i][j]->weight << std::endl;
+                        break;
+                    }
+                }
+            }
+
+            for (int i = 0; i < edges.size(); i++)
+            {
+                delete edges[i];
+            }
+
+            edges.resize(list.size(), NULL);
+        }
+        std::cout << "\nThe max flow of this graph is " << maxFlow << std::endl;
     }
 };

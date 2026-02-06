@@ -538,8 +538,6 @@ public:
     void fordFulkersonFlow(int source, int destination)
     {
 
-        int count = 0;
-
         if (source > matrix.size() || destination > matrix.size())
         {
             std::cout << "The source or destination is not within range..." << std::endl;

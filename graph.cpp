@@ -84,5 +84,4 @@ public:
     virtual void kahnTopological() = 0;
     virtual void fordFulkersonFlow(int source, int destination) = 0;
     //  virtual void kargerFlow();
-    //  virtual void dinicFlow();
 };
