@@ -121,6 +121,52 @@ public:
         }
     }
 
+    void connectivity()
+    {
+        std::vector<bool> visited(matrix.size(), false);
+        std::queue<int> traverse;
+
+        std::cout << "\nThe graph has the following components..." << std::endl;
+
+        for (int i = 0; i < matrix.size(); i++)
+        {
+            if (visited[i])
+            {
+                continue;
+            }
+
+            traverse.push(i);
+            visited[i] = true;
+            std::cout << "\n   " << i;
+
+            while (!traverse.empty())
+            {
+                int top = traverse.front();
+                traverse.pop();
+
+                for (int j = 0; j < matrix[i].size(); j++)
+                {
+                    // check top -> n
+                    if (matrix[i][j] != 0 && !visited[j])
+                    {
+                        std::cout << " " << j;
+                        traverse.push(j);
+                        visited[j] = true;
+                    }
+
+                    // check n -> top (if top is a destination it's still part of the component)
+                    else if (matrix[j][i] != 0 && !visited[j])
+                    {
+                        std::cout << " " << j;
+                        traverse.push(j);
+                        visited[j] = true;
+                    }
+                }
+            }
+        }
+        std::cout << std::endl;
+    }
+
     void BFStraversal(int node)
     {
         if (node >= matrix.size())

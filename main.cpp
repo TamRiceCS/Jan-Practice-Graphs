@@ -36,6 +36,7 @@ Graph *buildMenu(char &userChar, bool &progress)
         if (example->getValidity())
         {
             progress = true;
+            example->connectivity();
             return example;
         }
         else
@@ -59,6 +60,7 @@ Graph *buildMenu(char &userChar, bool &progress)
 
         if (example->getValidity())
         {
+            example->connectivity();
             return example;
         }
         else

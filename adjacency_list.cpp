@@ -103,6 +103,63 @@ public:
         }
     }
 
+    void connectivity()
+    {
+        std::vector<bool> visited(list.size(), false);
+        std::queue<int> traverse;
+        std::cout << "\nThe graph has the following components..." << std::endl;
+
+        for (int i = 0; i < list.size(); i++)
+        {
+            if (visited[i])
+            {
+                continue;
+            }
+
+            traverse.push(i);
+            visited[i] = true;
+            std::cout << "\n   " << i;
+
+            while (!traverse.empty())
+            {
+                int top = traverse.front();
+                traverse.pop();
+
+                // check top -> n
+                for (int j = 0; j < list[top].size(); j++)
+                {
+                    int next = list[top][j]->destinationNode;
+                    if (!visited[next])
+                    {
+                        std::cout << " " << next;
+                        traverse.push(next);
+                        visited[next] = true;
+                    }
+                }
+
+                // check n -> top (if top is a destination it's still part of the component)
+
+                for (int j = 0; j < list.size(); j++)
+                {
+                    if (visited[j])
+                    {
+                        continue;
+                    }
+                    for (int k = 0; k < list[j].size(); k++)
+                    {
+                        if (list[j][k]->destinationNode == top)
+                        {
+                            std::cout << " " << j;
+                            traverse.push(j);
+                            visited[j] = true;
+                        }
+                    }
+                }
+            }
+        }
+        std::cout << std::endl;
+    }
+
     void outputGraph()
     {
         if (list.size() == 0)

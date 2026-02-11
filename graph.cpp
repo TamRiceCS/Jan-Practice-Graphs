@@ -72,7 +72,7 @@ public:
 
     //  virtual void detectCycle(); // Contains code for both directed and undirected. Make call simple.
     // virtual void detectDirectedness();
-    //  virtual void connectivity();
+    virtual void connectivity() = 0;
     virtual void outputGraph() = 0;
     virtual void BFStraversal(int node) = 0;
     virtual void DFStraversal(int node) = 0;
