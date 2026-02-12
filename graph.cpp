@@ -49,17 +49,14 @@ public:
     {
         return valid;
     }
-
-    bool getDirectedness()
-    {
-        return directed;
-    }
-
     void setDirectedness(bool fact)
     {
         directed = fact;
     }
-
+    bool getDirectedness()
+    {
+        return directed;
+    }
     void setNegative(bool fact)
     {
         hasNegative = fact;
@@ -73,6 +70,7 @@ public:
     //  virtual void detectCycle(); // Contains code for both directed and undirected. Make call simple.
     // virtual void detectDirectedness();
     virtual void connectivity() = 0;
+    virtual void directedness() = 0;
     virtual void outputGraph() = 0;
     virtual void BFStraversal(int node) = 0;
     virtual void DFStraversal(int node) = 0;

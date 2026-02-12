@@ -118,7 +118,7 @@ public:
 
             traverse.push(i);
             visited[i] = true;
-            std::cout << "\n   " << i;
+            std::cout << "   " << i;
 
             while (!traverse.empty())
             {
@@ -158,6 +158,42 @@ public:
             }
         }
         std::cout << std::endl;
+    }
+
+    void directedness()
+    {
+        int found = 0;
+        setDirectedness(true);
+        for (int i = 0; i < list.size(); i++)
+        {
+            for (int j = 0; j < list[i].size(); j++)
+            {
+                found = 0;
+                int forward = list[i][j]->destinationNode;
+                for (int k = 0; k < list[forward].size(); k++)
+                {
+                    if (list[forward][k]->destinationNode == i)
+                    {
+                        found = 1;
+                        break;
+                    }
+                }
+
+                if (found == 0)
+                {
+                    setDirectedness(false);
+                }
+            }
+        }
+        if (getDirectedness())
+        {
+            std::cout << "The graph is directed." << std::endl;
+        }
+
+        else
+        {
+            std::cout << "The graph is NOT directed." << std::endl;
+        }
     }
 
     void outputGraph()

@@ -127,6 +127,7 @@ public:
         std::queue<int> traverse;
 
         std::cout << "\nThe graph has the following components..." << std::endl;
+        std::cout << "   ";
 
         for (int i = 0; i < matrix.size(); i++)
         {
@@ -137,7 +138,7 @@ public:
 
             traverse.push(i);
             visited[i] = true;
-            std::cout << "\n   " << i;
+            std::cout << " " << i;
 
             while (!traverse.empty())
             {
@@ -165,6 +166,32 @@ public:
             }
         }
         std::cout << std::endl;
+    }
+
+    void directedness()
+    {
+        setDirectedness(true);
+        for (int i = 0; i < matrix.size(); i++)
+        {
+            for (int j = 0; j < matrix[i].size(); j++)
+            {
+                if (matrix[i][j] != 0 && (matrix[i][j] != matrix[j][i]))
+                {
+                    setDirectedness(false);
+                    break;
+                }
+            }
+        }
+
+        if (getDirectedness())
+        {
+            std::cout << "The graph is directed." << std::endl;
+        }
+
+        else
+        {
+            std::cout << "The graph is NOT directed." << std::endl;
+        }
     }
 
     void BFStraversal(int node)
