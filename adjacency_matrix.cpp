@@ -2,7 +2,6 @@ class AdjacencyMatrix : public Graph
 {
 private:
     std::vector<std::vector<int>> matrix;
-
     void checkValidity()
     {
         if (matrix.size() == 0)
