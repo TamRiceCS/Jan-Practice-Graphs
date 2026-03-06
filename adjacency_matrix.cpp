@@ -1,7 +1,14 @@
+// Repetitive Critique
+
+/*
+1. Consider giving a named variable in vague cases. Like naming matrix[i][j] node and i in the for loop child
+*/
+
 class AdjacencyMatrix : public Graph
 {
 private:
     std::vector<std::vector<int>> matrix;
+    // Ensures matrix is (n*n) where n is number of nodes.
     void checkValidity()
     {
         if (matrix.size() == 0)
@@ -33,6 +40,7 @@ public:
     AdjacencyMatrix(std::string fileName)
     {
         std::ifstream vectorFile(fileName);
+        // Why is this try and catch necessary? An if open, else return should work fine.
         try
         {
             if (!vectorFile.is_open())
@@ -42,7 +50,7 @@ public:
                 return;
             }
         }
-        catch (...)
+        catch (...) // Catching nothing? Specify the issue?
         {
             std::cout << "Something went wrong with the file... Please try again..." << std::endl;
             setValid(false);
@@ -57,6 +65,11 @@ public:
         {
             std::vector<int> adjacencies;
             int number = 0;
+            /*
+            Consider the user giving how many nodes are present, quicker check. User may lie, too short / too long
+            In the case it is too short, reject. Enforce early cutoff for too long.
+            (Only read n lines, and n indexes for each), if too short terminate early.
+            */
             if (matrix.size() == 10)
             {
                 std::cout << "Your graph has too many nodes..." << std::endl;
@@ -74,6 +87,9 @@ public:
                     number *= 10;
                     number += (fileLine[i] - '0') * sign;
                 }
+                /*
+                This line should not be an else if, but an if at the very end. Why let digits past the 4th in?
+                */
                 else if (number > 1000 || number < -1000)
                 {
                     std::cout << "Your graph contains a node not within the valid range..." << std::endl;
@@ -91,12 +107,13 @@ public:
             adjacencies.clear();
         }
 
-        checkValidity();
-        setAsMatrix();
+        checkValidity(); // Why is the validity check seperated? Especially since there are validity checks present inside
+        setAsMatrix();   // Why is this function / parameter necessary?
     }
 
     void outputGraph()
     {
+        // Unnecessary check for 0, for loop just won't run. No error prevented w/ it.
         if (matrix.size() == 0)
         {
             return;
@@ -108,6 +125,7 @@ public:
             std::cout << "[";
             for (int j = 0; j < matrix[i].size(); j++)
             {
+                // if-else may not be necessary. Just end one index early then print correct last index outside loop
                 if (j != matrix[i].size() - 1)
                 {
                     std::cout << matrix[i][j] << ", ";
@@ -119,7 +137,10 @@ public:
             }
         }
     }
-
+    /*
+    Idea: Nodes are connected by in and out edges. Traverse along all nodes and their in/out edges to find all
+    connected components. If a node is visited in a prior component, skip it.
+    */
     void connectivity()
     {
         std::vector<bool> visited(matrix.size(), false);
@@ -146,15 +167,12 @@ public:
 
                 for (int j = 0; j < matrix[i].size(); j++)
                 {
-                    // check top -> n
                     if (matrix[i][j] != 0 && !visited[j])
                     {
                         std::cout << " " << j;
                         traverse.push(j);
                         visited[j] = true;
                     }
-
-                    // check n -> top (if top is a destination it's still part of the component)
                     else if (matrix[j][i] != 0 && !visited[j])
                     {
                         std::cout << " " << j;
@@ -167,6 +185,10 @@ public:
         std::cout << std::endl;
     }
 
+    /*
+    Idea: In order to be directed every edge must as source -> destination and destination -> source with
+    the same weight.
+    */
     void directedness()
     {
         setDirectedness(true);
@@ -182,6 +204,7 @@ public:
             }
         }
 
+        // Why not output directedness and the bool?
         if (getDirectedness())
         {
             std::cout << "The graph is directed." << std::endl;
@@ -193,9 +216,14 @@ public:
         }
     }
 
+    /*
+    Idea: Traverse a graph via a queue starting a given node. Add all nodes adjacent to the current node and pop
+    the current node. Continue traversal until queue is empty. Do not add visited nodes, mark nodes visited as added
+    to the queue. Since it is a queue, we explore FIFO. We explore the breadth of a node before moving onto the next.
+    */
     void BFStraversal(int node)
     {
-        if (node >= matrix.size())
+        if (node >= matrix.size() || node < 0)
         {
             std::cout << "This node is out of bounds, please try again." << std::endl;
             return;
@@ -211,7 +239,7 @@ public:
             int parent = adjacencies.front();
             std::cout << "   Visited " << parent << std::endl;
             adjacencies.pop();
-            visited[parent] = true;
+            visited[parent] = true; // Unnecessary here, only needed for one case. Move to just outside while loop.
 
             for (int i = 0; i < matrix[parent].size(); i++)
             {
@@ -224,6 +252,12 @@ public:
         }
     }
 
+    /*
+    Idea: Traverse a graph via a stack and a given node. Add all adjacent nodes to the stack and pop the current
+    node. Continue traversal until the stack is empty. Do not add visited nodes, mark nodes visited as added to the
+    stack. Since a stack is LIFO. We explore down a path until no unvisited nodes can be found. We then backtrack
+    to prior adjacencies and explore down a path again.
+    */
     void DFStraversal(int node)
     {
         if (node >= matrix.size())
@@ -242,7 +276,7 @@ public:
             int parent = adjacencies.top();
             std::cout << "   Visited " << parent << std::endl;
             adjacencies.pop();
-            visited[parent] = true;
+            visited[parent] = true; // Unnecessary here, only needed for one case. Move to just outside while loop.
 
             for (int i = 0; i < matrix[parent].size(); i++)
             {
@@ -255,16 +289,30 @@ public:
         }
     }
 
+    /*
+    Idea: Given a node and a method of traversal (below I chose bfs), create an array of size n (where n is the
+    total of nodes) with each index containing an impossibly big value such as INT_MAX. This array will carry the
+    cheapest total weights possible (not their paths). Mark the given node's distance as 0. As you traverse the
+    graph try to find a cheaper path. If distances[parent] + edge[weight] is less than the child's current
+    distance. Update it and it to the queue/stack. DO NOT TRACK VISITED, UNNECESSARY.
+    */
+
+    /*
+     WARNING: the below algorithm is not the most efficient version. Try using a priority queue to choose the
+     cheapest next edge, this way we don't waste time going down inefficient paths (only add adj nodes if the curr
+     node got cheaper). Continue traversal until the pq is empty.
+     */
     void dijkstraShortest(int node)
     {
 
+        // Negative cycles CAN create infinite loops. As you can constantly use the negative edge to reduce.
         if (getNegativeStatus())
         {
             std::cout << "Dijkstra does not work on negative edge / cycle graphs..." << std::endl;
             return;
         }
 
-        if (node >= matrix.size())
+        if (node >= matrix.size() || node < 0)
         {
             std::cout << "This node is out of bounds, please try again." << std::endl;
             return;
@@ -303,9 +351,23 @@ public:
         }
     }
 
+    /*
+    Idea: Given a starting node, iter through all edges n (where n is the total number of nodes) for n-1 times.
+    Create an array of distances with a size of n, the default value is INT_MAX. The given node is 0. For every
+    node you hit such that the source has a defined distance (not INT_MAX) check if the destination node's distance
+    can be updated. (parent[distance] + edge[weight] is less than child's defined distance). Iterate once more at
+    the end, if any of the nodes get an improved distance there is a negative cycle, reject the answer.
+    */
+
+    /*
+    Why n-1 iterations. The longest path you can take without revisiting nodes will be n-1. (Think of the fence
+    post problem). This means any improvements after n-1 must have resulted by revisiting a visited node creating
+    a cycle.
+    */
+
     void bellmanFordShortest(int node)
     {
-        if (node >= matrix.size())
+        if (node >= matrix.size() || node < 0)
         {
             std::cout << "This node is out of bounds, please try again." << std::endl;
             return;
@@ -314,6 +376,7 @@ public:
         std::vector<int> distances(matrix.size(), INT_MAX);
         distances[node] = 0;
 
+        // Pet Peeve, not i-j-k. Clear that k was added later.
         for (int k = 0; k < matrix.size() - 1; k++)
         {
             std::cout << "\nNormalization at " << k + 1 << " out of " << matrix.size() - 1 << std::endl;
@@ -364,6 +427,7 @@ public:
         }
     }
 
+    /**/
     void floydWarshallShortest()
     {
         std::vector<std::vector<int>> allDist(matrix.size(), std::vector<int>(matrix[0].size(), INT_MAX));
